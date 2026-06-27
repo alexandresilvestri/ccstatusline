@@ -72,9 +72,17 @@ The TUI Main Menu has a **✨ Default configure** entry. Choosing it replaces yo
 
 ### How to use this fork
 
-This fork is **not published to npm under its own name**, so `bunx -y ccstatusline@latest` pulls *upstream*, not this fork. To run this fork, point Claude Code's `statusLine` command at it:
+This fork is **not published to npm under its own name**, so `bunx -y ccstatusline@latest` pulls *upstream*, not this fork. Use one of these instead.
 
-**Option A — run from a local clone (no publish needed).** Clone the repo, `bun install`, then set Claude Code `~/.claude/settings.json`:
+**Run it straight from GitHub with bunx.** A `prepare` script builds the bin on install, so `bunx` runs the fork directly from the repo — no npm publish, no clone:
+
+```bash
+bunx -y github:alexandresilvestri/ccstatusline
+```
+
+That launches the configuration TUI (where **✨ Default configure** applies the preset). Requires Bun on `PATH` (the `prepare` build runs `bun build`).
+
+**Use it as the Claude Code status line.** Point the `statusLine` command in `~/.claude/settings.json` at the fork. For a clone you keep around, run from source so `src/` edits take effect immediately with no build step:
 
 ```json
 {
@@ -86,9 +94,9 @@ This fork is **not published to npm under its own name**, so `bunx -y ccstatusli
 }
 ```
 
-Use an absolute `bun` path (e.g. `/usr/bin/bun`) so it resolves regardless of the subprocess `PATH`. Running from source means edits to `src/` take effect immediately — no build step.
+Use an absolute `bun` path (e.g. `/usr/bin/bun`) so it resolves regardless of the subprocess `PATH`. (You *can* set the command to `bunx -y github:alexandresilvestri/ccstatusline`, but bunx re-resolves the package on every status-line refresh — the source command above is lighter for everyday use.)
 
-**Option B — publish under your own npm name.** Change `name` in `package.json` (e.g. a scoped `@you/ccstatusline`), `bun run build`, `npm publish --access public`, then use `bunx -y @you/ccstatusline@latest` as the command — same UX as upstream.
+**Publish under your own npm name (optional).** Change `name` in `package.json` (e.g. a scoped `@you/ccstatusline`), `bun run build`, `npm publish --access public`, then use `bunx -y @you/ccstatusline@latest`.
 
 ## 🆕 Recent Updates
 
