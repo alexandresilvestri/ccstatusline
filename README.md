@@ -55,14 +55,15 @@ This is a personal fork of [ccstatusline](https://github.com/sirmalloc/ccstatusl
 A single composite widget (category **Usage**) that renders the whole usage line at once:
 
 ```
-5h:6% ends 19:30  3d:16%  context:96,124  $1.46
+5h:6% ends 19:30  context:96,124  max  $1.46  3d:16%
 ```
 
 - `5h:6%` — 5-hour rate-limit window used (integer %).
 - `ends 19:30` — when the 5-hour window resets, shown in **local time, 24-hour `HH:MM`**.
-- `3d:16%` — **days remaining** in the weekly (7-day) window, then weekly usage %. The label is `<days>d` (computed from the weekly reset time; falls back to `7d` when no reset time is available).
 - `context:96,124` — current context-window length in tokens, comma-grouped.
+- `max` — current thinking-effort level (e.g. `max`, `high`), from the status-line stdin; omitted when not provided.
 - `$1.46` — session cost.
+- `3d:16%` — **days remaining** in the weekly (7-day) window, then weekly usage %, shown last. The label is `<days>d` (computed from the weekly reset time; falls back to `7d` when no reset time is available).
 
 Segments with no data are skipped, so it degrades gracefully (e.g. without usage credentials the `5h`/`3d` parts drop and `context`/`$` still render). Data comes from Claude Code's stdin plus the Anthropic usage API — the same sources as the built-in usage widgets. Add it in the TUI via **Edit Lines → add widget → Usage → Usage Summary**.
 

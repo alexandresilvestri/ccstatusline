@@ -93,7 +93,7 @@ export function buildMainMenuItems(
         {
             label: '✨ Default configure',
             value: 'defaultConfig',
-            description: 'Replace your status line with the bundled usage-summary preset (5h/7d limits, context, cost) and save'
+            description: 'Replace your status line with the bundled usage-summary preset (5h limit, context, effort, cost, weekly remaining) and save'
         },
         {
             label: '🎨 Edit Colors',

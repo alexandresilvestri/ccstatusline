@@ -32,11 +32,11 @@ describe('UsageSummary widget', () => {
                 totalTokens: 0,
                 contextLength: 96124
             },
-            data: { cost: { total_cost_usd: 1.46 } }
+            data: { cost: { total_cost_usd: 1.46 }, effort: { level: 'max' } }
         };
 
         const output = new UsageSummaryWidget().render({ id: 'u', type: 'usage-summary' }, context, DEFAULT_SETTINGS);
-        expect(output).toBe(`5h:6% ends ${localClock(resetAt)}  3d:16%  context:96,124  $1.46`);
+        expect(output).toBe(`5h:6% ends ${localClock(resetAt)}  context:96,124  max  $1.46  3d:16%`);
     });
 
     it('rounds percentages to integers and clamps them to 0-100', () => {
@@ -73,7 +73,23 @@ describe('UsageSummary widget', () => {
         const context: RenderContext = { isPreview: true };
 
         const output = new UsageSummaryWidget().render({ id: 'u', type: 'usage-summary' }, context, DEFAULT_SETTINGS);
-        expect(output).toBe('5h:6% ends 19:30  3d:16%  context:96,124  $1.46');
+        expect(output).toBe('5h:6% ends 19:30  context:96,124  max  $1.46  3d:16%');
+    });
+
+    it('places effort after context and omits it when data.effort is absent', () => {
+        const context: RenderContext = {
+            usageData: { sessionUsage: 6, weeklyUsage: 16 },
+            tokenMetrics: {
+                inputTokens: 0,
+                outputTokens: 0,
+                cachedTokens: 0,
+                totalTokens: 0,
+                contextLength: 96124
+            }
+        };
+
+        const output = new UsageSummaryWidget().render({ id: 'u', type: 'usage-summary' }, context, DEFAULT_SETTINGS);
+        expect(output).toBe('5h:6%  context:96,124  7d:16%');
     });
 
     it('returns null when no data is available', () => {

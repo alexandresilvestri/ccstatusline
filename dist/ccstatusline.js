@@ -67638,7 +67638,7 @@ class UsageSummaryWidget {
   }
   render(item, context, settings) {
     if (context.isPreview) {
-      return "5h:6% ends 19:30  3d:16%  context:96,124  $1.46";
+      return "5h:6% ends 19:30  context:96,124  max  $1.46  3d:16%";
     }
     const segments = [];
     const usage = context.usageData ?? {};
@@ -67651,19 +67651,23 @@ class UsageSummaryWidget {
       }
       segments.push(group);
     }
+    const contextLength = getContextWindowContextLengthTokens(context.data) ?? context.tokenMetrics?.contextLength;
+    if (contextLength !== undefined) {
+      segments.push(`context:${contextLength.toLocaleString("en-US")}`);
+    }
+    const effort = context.data?.effort?.level;
+    if (effort) {
+      segments.push(effort);
+    }
+    const cost = context.data?.cost?.total_cost_usd;
+    if (cost !== undefined) {
+      segments.push(`$${cost.toFixed(2)}`);
+    }
     if (usage.weeklyUsage !== undefined) {
       const percent = Math.round(Math.max(0, Math.min(100, usage.weeklyUsage)));
       const days = weeklyDaysRemaining(usage.weeklyResetAt);
       const daysLabel = days !== null ? `${days}d` : "7d";
       segments.push(`${daysLabel}:${percent}%`);
-    }
-    const contextLength = getContextWindowContextLengthTokens(context.data) ?? context.tokenMetrics?.contextLength;
-    if (contextLength !== undefined) {
-      segments.push(`context:${contextLength.toLocaleString("en-US")}`);
-    }
-    const cost = context.data?.cost?.total_cost_usd;
-    if (cost !== undefined) {
-      segments.push(`$${cost.toFixed(2)}`);
     }
     return segments.length > 0 ? segments.join("  ") : null;
   }
@@ -75692,7 +75696,7 @@ function buildMainMenuItems(isClaudeInstalled, hasChanges, installation) {
     {
       label: "✨ Default configure",
       value: "defaultConfig",
-      description: "Replace your status line with the bundled usage-summary preset (5h/7d limits, context, cost) and save"
+      description: "Replace your status line with the bundled usage-summary preset (5h limit, context, effort, cost, weekly remaining) and save"
     },
     {
       label: "\uD83C\uDFA8 Edit Colors",
