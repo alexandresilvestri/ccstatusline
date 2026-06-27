@@ -53,6 +53,7 @@ import {
     type GlobalPackageInstallation,
     type GlobalPackageManager
 } from '../utils/global-package-manager';
+import { generateGuid } from '../utils/guid';
 import { openExternalUrl } from '../utils/open-url';
 import {
     checkPowerlineFonts,
@@ -910,6 +911,32 @@ export const App: React.FC = () => {
             case 'lines':
                 setScreen('lines');
                 break;
+            case 'defaultConfig': {
+                const preset: WidgetItem[][] = [
+                    [{ id: generateGuid(), type: 'usage-summary', color: 'brightWhite' }],
+                    [],
+                    []
+                ];
+                setConfirmDialog({
+                    message: 'Replace your current status line with the default usage-summary preset and save?',
+                    action: async () => {
+                        const newSettings = { ...settings, lines: preset };
+                        try {
+                            setSettings(newSettings);
+                            await saveSettings(newSettings);
+                            setOriginalSettings(cloneSettings(newSettings));
+                            setHasChanges(false);
+                            setFlashMessage({ text: '✓ Default config applied and saved', color: 'green' });
+                        } catch {
+                            setFlashMessage({ text: '✗ Could not save configuration', color: 'red' });
+                        }
+                        setConfirmDialog(null);
+                        setScreen('main');
+                    }
+                });
+                setScreen('confirm');
+                break;
+            }
             case 'colors':
                 setScreen('colorLines');
                 break;

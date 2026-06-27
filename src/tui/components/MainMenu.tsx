@@ -13,6 +13,7 @@ import { type PowerlineFontStatus } from '../../utils/powerline';
 import { List } from './List';
 
 export type MainMenuOption = 'lines'
+    | 'defaultConfig'
     | 'colors'
     | 'powerline'
     | 'terminalConfig'
@@ -88,6 +89,11 @@ export function buildMainMenuItems(
             value: 'lines',
             description:
                 'Configure any number of status lines with various widgets like model info, git status, and token usage'
+        },
+        {
+            label: '✨ Default configure',
+            value: 'defaultConfig',
+            description: 'Replace your status line with the bundled usage-summary preset (5h/7d limits, context, cost) and save'
         },
         {
             label: '🎨 Edit Colors',
