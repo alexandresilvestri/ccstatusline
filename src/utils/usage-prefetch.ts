@@ -11,6 +11,7 @@ const USAGE_WIDGET_TYPES = new Set<string>([
     'weekly-usage',
     'weekly-sonnet-usage',
     'weekly-opus-usage',
+    'usage-summary',
     'block-timer',
     'reset-timer',
     'weekly-reset-timer',
@@ -47,6 +48,12 @@ const USAGE_WIDGET_REQUIREMENTS: Record<string, UsageFieldRequirement[]> = {
     'weekly-usage': [{ field: 'weeklyUsage' }],
     'weekly-sonnet-usage': [{ field: 'weeklySonnetUsage' }],
     'weekly-opus-usage': [{ field: 'weeklyOpusUsage' }],
+    'usage-summary': [
+        { field: 'sessionUsage' },
+        { field: 'sessionResetAt' },
+        { field: 'weeklyUsage' },
+        { field: 'weeklyResetAt' }
+    ],
     'block-timer': [{ field: 'sessionResetAt' }],
     'reset-timer': [{ field: 'sessionResetAt' }],
     'weekly-reset-timer': [{ field: 'weeklyResetAt' }],
