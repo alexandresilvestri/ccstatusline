@@ -74,13 +74,13 @@ The TUI Main Menu has a **✨ Default configure** entry. Choosing it replaces yo
 
 This fork is **not published to npm under its own name**, so `bunx -y ccstatusline@latest` pulls *upstream*, not this fork. Use one of these instead.
 
-**Run it straight from GitHub with bunx.** A `prepare` script builds the bin on install, so `bunx` runs the fork directly from the repo — no npm publish, no clone:
+**Run it straight from GitHub with bunx.** The built bin (`dist/ccstatusline.js`, a self-contained bundle) is committed to the repo, so `bunx` runs the fork directly — no npm publish, no clone:
 
 ```bash
 bunx -y github:alexandresilvestri/ccstatusline
 ```
 
-That launches the configuration TUI (where **✨ Default configure** applies the preset). Requires Bun on `PATH` (the `prepare` build runs `bun build`).
+That launches the configuration TUI (where **✨ Default configure** applies the preset). Note: `dist/` is committed on purpose to make this work — after changing `src/`, run `bun run build` and commit `dist/` so bunx serves the latest.
 
 **Use it as the Claude Code status line.** Point the `statusLine` command in `~/.claude/settings.json` at the fork. For a clone you keep around, run from source so `src/` edits take effect immediately with no build step:
 
