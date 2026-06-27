@@ -77,7 +77,7 @@ This fork is **not published to npm under its own name**, so `bunx -y ccstatusli
 **Run it straight from GitHub with bunx.** The built bin (`dist/ccstatusline.js`, a self-contained bundle) is committed to the repo, so `bunx` runs the fork directly — no npm publish, no clone:
 
 ```bash
-bunx -y github:alexandresilvestri/ccstatusline
+bunx -y github:alexandresilvestri/ccstatusline#main
 ```
 
 That launches the configuration TUI (where **✨ Default configure** applies the preset). Note: `dist/` is committed on purpose to make this work — after changing `src/`, run `bun run build` and commit `dist/` so bunx serves the latest.
@@ -94,7 +94,7 @@ That launches the configuration TUI (where **✨ Default configure** applies the
 }
 ```
 
-Use an absolute `bun` path (e.g. `/usr/bin/bun`) so it resolves regardless of the subprocess `PATH`. (You *can* set the command to `bunx -y github:alexandresilvestri/ccstatusline`, but bunx re-resolves the package on every status-line refresh — the source command above is lighter for everyday use.)
+Use an absolute `bun` path (e.g. `/usr/bin/bun`) so it resolves regardless of the subprocess `PATH`. (You *can* set the command to `bunx -y github:alexandresilvestri/ccstatusline#main`, but bunx re-resolves the package on every status-line refresh — the source command above is lighter for everyday use.)
 
 **Publish under your own npm name (optional).** Change `name` in `package.json` (e.g. a scoped `@you/ccstatusline`), `bun run build`, `npm publish --access public`, then use `bunx -y @you/ccstatusline@latest`.
 
