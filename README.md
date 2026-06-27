@@ -34,6 +34,7 @@
 
 - [Recent Updates](#-recent-updates)
 - [Features](#-features)
+- [Fork personalizations](#-fork-personalizations)
 - [Localizations](#-localizations)
 - [Quick Start](#-quick-start)
 - [Windows Support](docs/WINDOWS.md)
@@ -44,6 +45,50 @@
 - [Related Projects](#-related-projects)
 
 <br />
+
+## 🍴 Fork personalizations
+
+This is a personal fork of [ccstatusline](https://github.com/sirmalloc/ccstatusline) with a couple of additions on top of upstream.
+
+### `Usage Summary` widget
+
+A single composite widget (category **Usage**) that renders the whole usage line at once:
+
+```
+5h:6% ends 19:30  3d:16%  context:96,124  $1.46
+```
+
+- `5h:6%` — 5-hour rate-limit window used (integer %).
+- `ends 19:30` — when the 5-hour window resets, shown in **local time, 24-hour `HH:MM`**.
+- `3d:16%` — **days remaining** in the weekly (7-day) window, then weekly usage %. The label is `<days>d` (computed from the weekly reset time; falls back to `7d` when no reset time is available).
+- `context:96,124` — current context-window length in tokens, comma-grouped.
+- `$1.46` — session cost.
+
+Segments with no data are skipped, so it degrades gracefully (e.g. without usage credentials the `5h`/`3d` parts drop and `context`/`$` still render). Data comes from Claude Code's stdin plus the Anthropic usage API — the same sources as the built-in usage widgets. Add it in the TUI via **Edit Lines → add widget → Usage → Usage Summary**.
+
+### `Default configure` main-menu action
+
+The TUI Main Menu has a **✨ Default configure** entry. Choosing it replaces your status line with a single white `Usage Summary` line, asks for confirmation, then writes `settings.json` immediately — a one-click way to get the layout above.
+
+### How to use this fork
+
+This fork is **not published to npm under its own name**, so `bunx -y ccstatusline@latest` pulls *upstream*, not this fork. To run this fork, point Claude Code's `statusLine` command at it:
+
+**Option A — run from a local clone (no publish needed).** Clone the repo, `bun install`, then set Claude Code `~/.claude/settings.json`:
+
+```json
+{
+  "statusLine": {
+    "type": "command",
+    "command": "/usr/bin/bun /absolute/path/to/ccstatusline/src/ccstatusline.ts",
+    "padding": 0
+  }
+}
+```
+
+Use an absolute `bun` path (e.g. `/usr/bin/bun`) so it resolves regardless of the subprocess `PATH`. Running from source means edits to `src/` take effect immediately — no build step.
+
+**Option B — publish under your own npm name.** Change `name` in `package.json` (e.g. a scoped `@you/ccstatusline`), `bun run build`, `npm publish --access public`, then use `bunx -y @you/ccstatusline@latest` as the command — same UX as upstream.
 
 ## 🆕 Recent Updates
 
